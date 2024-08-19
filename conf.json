@@ -1,0 +1,9 @@
+{
+    "LoginBd":  "postgres",
+    "PassBd":  "123",
+	"PortBd": 	"5432",
+	"NameBd": "postgres",
+	"ServerPort": "8090",
+	"Email": "email",
+	"EmailPass": "emailpass"
+}
