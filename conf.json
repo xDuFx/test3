@@ -3,7 +3,7 @@
     "PassBd":  "123",
 	"PortBd": 	"5432",
 	"NameBd": "postgres",
-	"ServerPort": "8090",
+	"ServerPort": "port",
 	"Email": "email",
 	"EmailPass": "emailpass"
 }

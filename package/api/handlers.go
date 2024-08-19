@@ -58,6 +58,7 @@ func (api *api) refresh(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
+		defer r.Body.Close()
 
 		vars := mux.Vars(r)
 		refreshHash, ok := vars["refresh"]
@@ -107,27 +108,21 @@ func (api *api) refresh(w http.ResponseWriter, r *http.Request) {
 			fmt.Fprintln(w, "Нет данных по токену")
 		}
 
-		emailCheck, err := api.db.IpCheck(guid)
+		ipCheck, err := api.db.IpCheck(guid)
 
 		if err != nil {
 			http.Error(w, "Ошибка в проверки айпи", http.StatusInternalServerError)
 			log.Println(err.Error())
 			return
 		}
-		ip, ok := claims["ip"].(string)
-		if !ok {
-			http.Error(w, "Ошибка в проверке токена", http.StatusInternalServerError)
-			log.Println("Ошибка guid")
-			return
-		}
-		if emailCheck != "" {
+		if ipCheck != "" {
 			email, err := api.db.Email(guid)
 			if err != nil {
 				http.Error(w, "", http.StatusInternalServerError)
 				log.Println(err.Error())
 				return
 			}
-			err = sendemail.Emailsend(email, ip)
+			err = sendemail.Emailsend(email, ipCheck)
 			if err != nil {
 				http.Error(w, "", http.StatusInternalServerError)
 				log.Println(err.Error())
