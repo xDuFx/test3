@@ -22,17 +22,17 @@ Refresh токен  формат передачи base64, хранится в б
 
 Access, Refresh токены обоюдно связаны, Refresh операцию для Access токена можно выполнить только тем Refresh токеном который был выдан вместе с ним.
 
-Payload токенов содержет сведения об ip адресе клиента, которому он был выдан. В случае, если ip адрес изменился, при рефреш операции нужно послать email warning на почту юзера (для упрощения можно использовать моковые данные).
-В базе данных хранится две таблички:
-create table Users ( /n
-/t	guid text, /n
-/t	email text  not null default 'nothing'/n
-);
-и
-create table SessionUsers ( /n
-/t	id serial primary key, /n
-/t	refreshToken text,/n
-/t	ip text  /n
-);
-alter  table SessionUsers add column guid text UNIQUE references Users(guid);
+Payload токенов содержет сведения об ip адресе клиента, которому он был выдан. В случае, если ip адрес изменился, при рефреш операции нужно послать email warning на почту юзера (для упрощения можно использовать моковые данные).  
+В базе данных хранится две таблички:  
+create table Users (   
+	guid text,   
+	email text  not null default 'nothing'/n  
+);  
+и  
+create table SessionUsers (   
+	id serial primary key,   
+	refreshToken text,  
+	ip text    
+);  
+alter  table SessionUsers add column guid text UNIQUE references Users(guid);  
 Конфигурация задаётся через json файл. Под одним GUID может залогинен только один пользователь(в моменте не придумал, как отслеживать пользователей, если они будут под одним GUID).
